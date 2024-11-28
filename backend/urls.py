@@ -16,7 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Welcome to the home page!")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home, name='home'),  # Route for the root URL
+]
+from django.urls import path
+from books.views import BookListCreateAPIView, BookRetrieveUpdateDestroyAPIView
+
+urlpatterns = [
+    path('api/books/', BookListCreateAPIView.as_view(), name='book-list-create'),
+    path('api/books/<int:pk>/', BookRetrieveUpdateDestroyAPIView.as_view(), name='book-detail'),
 ]
